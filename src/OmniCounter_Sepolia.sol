@@ -2,8 +2,14 @@
 
 pragma solidity ^0.8.19;
 
+// Importing the base contract for LayerZero applications
 import "@layerzero-contracts/lzApp/NonblockingLzApp.sol";
 
+/**
+ * @title OmniCounter_Sepolia
+ * @dev This contract represents the OmniCounter application on the Sepolia testnet.
+ * It allows for incrementing a counter and sending a payload to another chain.
+ */
 contract OmniCounter_Sepolia is NonblockingLzApp {
     bytes public constant PAYLOAD = "Sepolia_to_Mumbai";
     uint public counter;
