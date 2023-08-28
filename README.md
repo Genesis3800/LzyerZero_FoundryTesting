@@ -1,66 +1,42 @@
-## Foundry
+# Foundry tests for LayerZero contracts using a mock Endpoint
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+LayerZero is an omnichain omnichain interoperability protocol.
+The protocol consists of a crucial off-chain component, called a *relayer*.
+This piece of technology is responsible for transferring messages across chains. 
 
-Foundry consists of:
+This however makes it difficult to test smart contracts on a local blockchain instance like Anvil, Hardhat node, Ganache.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+The LayerZero team however provides a [mock endpoint](https://github.com/LayerZero-Labs/solidity-examples/blob/main/contracts/mocks/LZEndpointMock.sol "mock endpoint") that can be used to simulate cross-chain communication using a single blockchain.
 
-## Documentation
+This repo was built as an exercise in learning to figure out how to use the mock endpoint to write tests in Foundry.
 
-https://book.getfoundry.sh/
+## Overview
 
-## Usage
+The OmniCounter project consists of:
 
-### Build
+- **OmniCounter_Sepolia.sol**: A contract deployed on the Sepolia testnet.
+- **OmniCounter_Mumbai.sol**: A contract deployed on the Mumbai testnet.
+- **OmniCounter.t.sol**: A test contract to ensure the functionality and interoperability of the above contracts.
 
-```shell
-$ forge build
+The main functionality revolves around incrementing a counter on one chain and observing the corresponding increment on the other chain, showcasing real-time cross-chain communication.
+
+## How to use
+
+> Note that you will need to have Foundry installed in your system. Refer to [Foundry book](https://book.getfoundry.sh/ "Foundry book") for relevent instructions.
+
+To use, Simply, clone the repo, and then:
+
+1. To compile the contracts:
+
+```bash
+forge build
 ```
 
-### Test
+2. To run the tests:
 
-```shell
-$ forge test
+```bash
+forge test --match-path test/OmniCounter.t.sol -vvvv
 ```
 
-### Format
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+>The verbosity flag(-v) is set to maximum to output the stack trace for all the calls happening in the test functions. Helpful for debugging.  
